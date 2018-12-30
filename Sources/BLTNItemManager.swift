@@ -449,18 +449,18 @@ extension BLTNItemManager {
     @objc(dismissBulletinAnimated:)
     public func dismissBulletin(animated: Bool = true) {
 
-        assertIsPrepared()
-        assertIsMainThread()
-
-        currentItem.tearDown()
-        currentItem.manager = nil
-
-        bulletinController.dismiss(animated: animated) {
-            self.completeDismissal()
+        if isPrepared {
+            assertIsMainThread()
+            
+            currentItem.tearDown()
+            currentItem.manager = nil
+            
+            bulletinController.dismiss(animated: animated) {
+                self.completeDismissal()
+            }
+            
+            isPrepared = false
         }
-
-        isPrepared = false
-
     }
 
     /**
